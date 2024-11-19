@@ -1,0 +1,241 @@
+{% extends 'pokemon/base.html' %}
+{% load pokemon_filters %}
+{% load static %}
+{% block content %}
+<div class="pokemon-detail-container" data-type="{{ pokemon.type1|lower }}">
+    <div class="detail-left-column">
+        <div class="left-column-wrapper">
+            <h1 class="pokemon-name">#{{ pokemon.number|stringformat:"04d" }} {{ pokemon.name }}</h1>
+            <div class="pokemon-types">
+                <span class="type-badge type-{{ pokemon.type1|lower }}">{{ pokemon.type1 }}</span>
+                {% if pokemon.type2 %}
+                <span class="type-badge type-{{ pokemon.type2|lower }}">{{ pokemon.type2 }}</span>
+                {% endif %}
+            </div>
+            <img class="detail-image" src="{{ pokemon.image_url }}" alt="{{ pokemon.name }}">
+            
+            {% if pokemon.evolves_from or pokemon.direct_evolves_to.all %}
+            <div class="evolution-chain">
+                <h3>Evolution Line</h3>
+                <div class="evolution-line">
+                    {% with evolution_line=pokemon|get_evolution_line %}
+                    {% for evo in evolution_line %}
+                        <div class="evolution-stage {% if evo.number == pokemon.number %}current{% endif %}">
+                            <a href="{% url 'pokemon_detail' evo.number %}" class="evo-sprite-link">
+                                <img src="{{ evo.image_url }}" alt="{{ evo.name }}" class="evo-sprite">
+                                <span class="evo-name">{{ evo.name }}</span>
+                            </a>
+                            {% if not forloop.last %}
+                                <div class="evolution-details">
+                                    {% with next_evo=evolution_line|index:forloop.counter %}
+                                        {% if next_evo.evolution_level %}Level {{ next_evo.evolution_level }}{% endif %}
+                                        {% if next_evo.evolution_method %}{{ next_evo.evolution_method }}{% endif %}
+                                        →
+                                    {% endwith %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                    {% endwith %}
+                </div>
+            </div>
+            {% endif %}
+
+            <div class="pokemon-data">
+                <h3>Data</h3>
+                <div class="data-grid">
+                    <div class="data-item">
+                        <span class="label">Height:</span>
+                        <span class="value">{{ pokemon.height }} m</span>
+                    </div>
+                    <div class="data-item">
+                        <span class="label">Weight:</span>
+                        <span class="value">{{ pokemon.weight }} kg</span>
+                    </div>
+                    <div class="data-item">
+                        <span class="label">Gender Ratio:</span>
+                        <span class="value">{{ pokemon.gender_ratio }}</span>
+                    </div>
+                    <div class="data-item">
+                        <span class="label">Egg Groups:</span>
+                        <span class="value">{{ pokemon.egg_groups }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="detail-right-column reduced-space">
+        <div class="pokemon-abilities">
+            <h3>Abilities</h3>
+            <p>{{ pokemon.abilities }}</p>
+        </div>
+
+        <div class="pokemon-description">
+            <h3>Description</h3>
+            <p>{{ pokemon.description }}</p>
+        </div>
+
+        <div class="pokemon-stats">
+            <h3>Base Stats</h3>
+            <div class="stat-bar">
+                <span class="stat-label">HP</span>
+                <div class="bar-container">
+                    <div class="bar type-{{ pokemon.type1|lower }}" style="width: {{ pokemon.hp|multiply:100|divide:255 }}%"></div>
+                </div>
+                <span class="stat-value">{{ pokemon.hp }}</span>
+            </div>
+            <div class="stat-bar">
+                <span class="stat-label">Attack</span>
+                <div class="bar-container">
+                    <div class="bar type-{{ pokemon.type1|lower }}" style="width: {{ pokemon.attack|multiply:100|divide:255 }}%"></div>
+                </div>
+                <span class="stat-value">{{ pokemon.attack }}</span>
+            </div>
+            <div class="stat-bar">
+                <span class="stat-label">Defense</span>
+                <div class="bar-container">
+                    <div class="bar type-{{ pokemon.type1|lower }}" style="width: {{ pokemon.defense|multiply:100|divide:255 }}%"></div>
+                </div>
+                <span class="stat-value">{{ pokemon.defense }}</span>
+            </div>
+            <div class="stat-bar">
+                <span class="stat-label">Sp. Attack</span>
+                <div class="bar-container">
+                    <div class="bar type-{{ pokemon.type1|lower }}" style="width: {{ pokemon.sp_attack|multiply:100|divide:255 }}%"></div>
+                </div>
+                <span class="stat-value">{{ pokemon.sp_attack }}</span>
+            </div>
+            <div class="stat-bar">
+                <span class="stat-label">Sp. Defense</span>
+                <div class="bar-container">
+                    <div class="bar type-{{ pokemon.type1|lower }}" style="width: {{ pokemon.sp_defense|multiply:100|divide:255 }}%"></div>
+                </div>
+                <span class="stat-value">{{ pokemon.sp_defense }}</span>
+            </div>
+            <div class="stat-bar">
+                <span class="stat-label">Speed</span>
+                <div class="bar-container">
+                    <div class="bar type-{{ pokemon.type1|lower }}" style="width: {{ pokemon.speed|multiply:100|divide:255 }}%"></div>
+                </div>
+                <span class="stat-value">{{ pokemon.speed }}</span>
+            </div>
+        </div>
+
+        <div class="moves-section">
+            <h3>Moves</h3>
+            
+            <h4>Level Up Moves</h4>
+            <table class="moves-table">
+                <thead>
+                    <tr>
+                        <th>Level</th>
+                        <th>Name</th>
+                        <th>Power</th>
+                        <th>Accuracy</th>
+                        <th>Category</th>
+                        <th>Type</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for move in level_up_moves %}
+                    <tr>
+                        <td>Lv.{{ move.level }}</td>
+                        <td>{{ move.move.name }}</td>
+                        <td>{% if move.move.power %}{{ move.move.power }}{% else %}-{% endif %}</td>
+                        <td>{% if move.move.accuracy %}{{ move.move.accuracy }}%{% else %}-{% endif %}</td>
+                        <td>
+                            <img src="{% static 'pokemon/images/'|add:move.move.category|add:'.png' %}" 
+                                 alt="{{ move.move.category }}" 
+                                 title="{{ move.move.category }}"
+                                 class="category-icon">
+                        </td>
+                        <td>{{ move.move.type }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <h4>TM Moves</h4>
+            <table class="moves-table">
+                <thead>
+                    <tr>
+                        <th>TM</th>
+                        <th>Name</th>
+                        <th>Power</th>
+                        <th>Accuracy</th>
+                        <th>Category</th>
+                        <th>Type</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for move in tm_moves %}
+                    <tr>
+                        <td>TM</td>
+                        <td>{{ move.move.name }}</td>
+                        <td>{% if move.move.power %}{{ move.move.power }}{% else %}-{% endif %}</td>
+                        <td>{% if move.move.accuracy %}{{ move.move.accuracy }}%{% else %}-{% endif %}</td>
+                        <td>
+                            <img src="{% static 'pokemon/images/'|add:move.move.category|add:'.png' %}" 
+                                 alt="{{ move.move.category }}" 
+                                 title="{{ move.move.category }}"
+                                 class="category-icon">
+                        </td>
+                        <td class="type-badge type-{{ move.move.type|lower }}">{{ move.move.type }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <h4>Egg Moves</h4>
+            <table class="moves-table">
+                <thead>
+                    <tr>
+                        <th>Egg</th>
+                        <th>Name</th>
+                        <th>Power</th>
+                        <th>Accuracy</th>
+                        <th>Category</th>
+                        <th>Type</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for move in egg_moves %}
+                    <tr>
+                        <td>Egg</td>
+                        <td>{{ move.move.name }}</td>
+                        <td>{% if move.move.power %}{{ move.move.power }}{% else %}-{% endif %}</td>
+                        <td>{% if move.move.accuracy %}{{ move.move.accuracy }}%{% else %}-{% endif %}</td>
+                        <td>
+                            <img src="{% static 'pokemon/images/'|add:move.move.category|add:'.png' %}" 
+                                 alt="{{ move.move.category }}" 
+                                 title="{{ move.move.category }}"
+                                 class="category-icon">
+                        </td>
+                        <td class="type-badge type-{{ move.move.type|lower }}">{{ move.move.type }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        {% if alternative_forms %}
+        <div class="forms-container">
+            {% for form in alternative_forms %}
+            <div class="form-card">
+                <img src="{{ form.image_url }}" alt="{{ form.name }}">
+                <h3>{{ form.name }}</h3>
+                <div class="type-container">
+                    <span class="type-badge type-{{ form.type1|lower }}">{{ form.type1 }}</span>
+                    {% if form.type2 %}
+                    <span class="type-badge type-{{ form.type2|lower }}">{{ form.type2 }}</span>
+                    {% endif %}
+                </div>
+                <p class="form-description">{{ form.description }}</p>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

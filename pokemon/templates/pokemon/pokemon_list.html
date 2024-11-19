@@ -1,0 +1,18 @@
+{% extends 'pokemon/base.html' %}
+{% block content %}
+<div class="pokemon-grid">
+    {% for pokemon in pokemons %}
+    <a href="{% url 'pokemon_detail' pokemon.number %}" class="pokemon-card" data-type="{{ pokemon.type1|lower }}">
+        <div class="number-badge">#{{ pokemon.number|stringformat:"04d" }}</div>
+        <img src="{{ pokemon.image_url }}"  loading="lazy" class="pokemon-sprite">
+        <h2>{{ pokemon.name }}</h2>
+        <div class="type-container">
+            <span class="type-badge type-{{ pokemon.type1|lower }}">{{ pokemon.type1 }}</span>
+            {% if pokemon.type2 %}
+            <span class="type-badge type-{{ pokemon.type2|lower }}">{{ pokemon.type2 }}</span>
+            {% endif %}
+        </div>
+    </a>
+    {% endfor %}
+</div>
+{% endblock %}
