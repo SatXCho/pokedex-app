@@ -1,7 +1,8 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 class Pokemon(models.Model):
-    csvid = models.IntegerField(unique=True, default=-1)
+    csvid = models.IntegerField(default=-1)
     number = models.IntegerField()
     name = models.CharField(max_length=100)
     classification = models.CharField(max_length=100)
@@ -42,3 +43,17 @@ class Pokemon(models.Model):
 
     def __str__(self):
         return f"#{self.number} {self.name}"
+
+
+class Team(models.Model):
+    name = models.CharField(max_length=100)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='teams')  # Link to the user
+    pokemon1 = models.ForeignKey(Pokemon, related_name='team_slot1', on_delete=models.CASCADE)
+    pokemon2 = models.ForeignKey(Pokemon, related_name='team_slot2', on_delete=models.CASCADE, null=True, blank=True)
+    pokemon3 = models.ForeignKey(Pokemon, related_name='team_slot3', on_delete=models.CASCADE, null=True, blank=True)
+    pokemon4 = models.ForeignKey(Pokemon, related_name='team_slot4', on_delete=models.CASCADE, null=True, blank=True)
+    pokemon5 = models.ForeignKey(Pokemon, related_name='team_slot5', on_delete=models.CASCADE, null=True, blank=True)
+    pokemon6 = models.ForeignKey(Pokemon, related_name='team_slot6', on_delete=models.CASCADE, null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.name} (Owner: {self.user.username})"

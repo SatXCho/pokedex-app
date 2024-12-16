@@ -1,7 +1,6 @@
 @font-face {
     font-family: 'CustomFont';
     src: url('fonts/font.ttf') format('truetype');
-    font-size: 1.5em;
 }
 
 :root {
@@ -48,7 +47,7 @@ header {
     padding: 3px 12px;
     margin: 2px;
     border-radius: 100px;
-    font-size: 1.8em;
+    font-size: 1em;
     font-weight: bold;
     color: white;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
@@ -223,7 +222,7 @@ header {
     color: white;
     padding: 4px 8px;
     border-radius: 12px;
-    font-size: 1em;
+    font-size: 0.8em;
     font-weight: bold;
     z-index: 3;
 }
@@ -456,7 +455,7 @@ header {
 }
 
 .pokemon-card h2 {
-    font-size: 2em;
+    font-size: 1.2em;
     margin: 0;
     z-index: 3;
 }
@@ -488,7 +487,7 @@ header {
 
 .pokemon-name {
     color: white;
-    font-size: 2em;
+    font-size: 1em;
     margin: 1rem 0;
     text-align: left;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
@@ -497,7 +496,7 @@ header {
 }
 
 .ability{
-    font-size: 1.5em;
+    font-size: 1em;
 }
 
 /* Container and column layout */
@@ -677,7 +676,7 @@ header {
 
 .detail-right-column h3,
 .detail-right-column h4 {
-    font-size: 1.6em;
+    font-size: 1em;
     position: relative;
     margin-bottom: 15px;
     padding-bottom: 8px;
@@ -686,7 +685,7 @@ header {
 .detail-right-column h3::after,
 .detail-right-column h4::after {
     content: '';
-    font-size: 1.6em;
+    font-size: 1em;
     position: absolute;
     bottom: 0;
     left: 0;
@@ -908,10 +907,10 @@ header {
 }
 
 .pokemon-abilities p{
-    font-size: 1.2em;
+    font-size: 0.8em;
 }
 .pokemon-description p{
-    font-size: 1.2em;
+    font-size: 1em;
 }
 
 /* Enhanced data table */
@@ -957,7 +956,7 @@ header {
 .pokemon-stats h3,
 .evolution-chain h3 {
     color: white;
-    font-size: 1.6em;
+    font-size: 1.2em;
     margin-bottom: 1rem;
     padding-bottom: 0.5rem;
     border-bottom: 2px solid rgba(255, 255, 255, 0.1);
@@ -1255,7 +1254,7 @@ header {
 
 .moves-section h3 {
     color: white;
-    font-size: 2rem;
+    font-size: 1em;
     margin: 0;
 }
 
@@ -1380,3 +1379,67 @@ header {
         opacity: 1;
     }
 }
+
+
+
+/* team  */
+
+.teams-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding: 1rem;
+    background: #2a2a2a;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.teams-member {
+    flex: 1 1 200px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    padding: 1rem;
+    text-align: center;
+    color: white;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.teams-member:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.teams-member img {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 1rem;
+}
+
+.teams-member h3 {
+    font-size: 1.5em;
+    margin: 0.5rem 0;
+}
+
+.teams-member .type-badge {
+    display: inline-block;
+    padding: 3px 12px;
+    margin: 2px;
+    border-radius: 100px;
+    font-size: 1em;
+    font-weight: bold;
+    color: white;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    vertical-align: middle;
+}
+
+.teams-member .type-normal {
+    background-color: var(--type-normal);
+}
+
+.teams-member .type-fire {
+    background-color: var(--type-fire);
+}
+
+/* Add similar entries for other types */

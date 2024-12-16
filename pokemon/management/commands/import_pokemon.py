@@ -25,7 +25,6 @@ class Command(BaseCommand):
             reader = csv.DictReader(csvfile)
             pokemons = []
             for row in reader:
-                print(row)
                 try:
                     pkmn = Pokemon(
                             csvid = row['\ufeffPokemon Id'],
@@ -57,7 +56,7 @@ class Command(BaseCommand):
                             generation = row['Game(s) of Origin'][1:-1],
                             evolves_from = get_evo(row['Pre-Evolution Pokemon Id']),
                             evolution_method = row['Evolution Details'][1:-1] if row['Evolution Details']!="NULL" else None,
-
+                            dex_entry = row['Pokedex Entry']
                     )
                     pkmn.save()
                     pokemons.append(pkmn)

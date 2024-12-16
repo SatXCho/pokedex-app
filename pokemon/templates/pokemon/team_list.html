@@ -1,0 +1,78 @@
+{% extends 'pokemon/base.html' %}
+{% load pokemon_filters %}
+{% load static %}
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'pokemon/team_styles.css' %}">   
+{% endblock %}
+{% block content %}
+<div class="teams-container">
+    <div class="teams-header">
+        <h1 class="headin">My Teams</h1>
+        <a href="{% url 'team_create' %}" class="create-team-btn">Create New Team</a>
+    </div>
+    
+    <div class="teams-grid">
+        {% for team in teams %}
+        <div class="team-card">
+            <div class="team-header">
+                <h2 class="team-name">{{ team.name }}</h2>
+                <div class="team-actions">
+                    <a href="{% url 'team_detail' team.id %}" class="back-btn">View</a>
+                    <a href="{% url 'delete_team' team.pk %}" class="team-delete-btn">Delete</a>
+                </div>
+            </div>
+            <div class="team-pokemon-grid">
+                {% if team.pokemon1 %}<div class="team-pokemon"><img src="{{ team.pokemon1.image_url }}" alt="{{ team.pokemon1.name }}">
+                <div class="type-container">
+                    <span class="type-badge type-{{ team.pokemon1.type1|lower }}">{{ team.pokemon1.type1 }}</span>
+                    {% if team.pokemon1.type2 %}
+                    <span class="type-badge type-{{ team.pokemon1.type2|lower }}">{{ team.pokemon1.type2 }}</span>
+                    {% endif %}
+                </div>
+                </div>{% endif %}
+                {% if team.pokemon2 %}<div class="team-pokemon"><img src="{{ team.pokemon2.image_url }}" alt="{{ team.pokemon2.name }}">
+                <div class="type-container">
+                    <span class="type-badge type-{{ team.pokemon2.type1|lower }}">{{ team.pokemon2.type1 }}</span>
+                    {% if team.pokemon2.type2 %}
+                    <span class="type-badge type-{{ team.pokemon2.type2|lower }}">{{ team.pokemon2.type2 }}</span>
+                    {% endif %}
+                </div>
+                </div>{% endif %}
+                {% if team.pokemon3 %}<div class="team-pokemon"><img src="{{ team.pokemon3.image_url }}" alt="{{ team.pokemon3.name }}">
+                <div class="type-container">
+                    <span class="type-badge type-{{ team.pokemon3.type1|lower }}">{{ team.pokemon3.type1 }}</span>
+                    {% if team.pokemon3.type2 %}
+                    <span class="type-badge type-{{ team.pokemon3.type2|lower }}">{{ team.pokemon3.type2 }}</span>
+                    {% endif %}
+                </div>
+                </div>{% endif %}
+                {% if team.pokemon4 %}<div class="team-pokemon"><img src="{{ team.pokemon4.image_url }}" alt="{{ team.pokemon4.name }}">
+                <div class="type-container">
+                    <span class="type-badge type-{{ team.pokemon4.type1|lower }}">{{ team.pokemon4.type1 }}</span>
+                    {% if team.pokemon4.type2 %}
+                    <span class="type-badge type-{{ team.pokemon4.type2|lower }}">{{ team.pokemon4.type2 }}</span>
+                    {% endif %}
+                </div>
+                </div>{% endif %}
+                {% if team.pokemon5 %}<div class="team-pokemon"><img src="{{ team.pokemon5.image_url }}" alt="{{ team.pokemon5.name }}">
+                <div class="type-container">
+                    <span class="type-badge type-{{ team.pokemon5.type1|lower }}">{{ team.pokemon5.type1 }}</span>
+                    {% if team.pokemon5.type2 %}
+                    <span class="type-badge type-{{ team.pokemon5.type2|lower }}">{{ team.pokemon5.type2 }}</span>
+                    {% endif %}
+                </div>
+                </div>{% endif %}
+                {% if team.pokemon6 %}<div class="team-pokemon"><img src="{{ team.pokemon6.image_url }}" alt="{{ team.pokemon6.name }}">
+                <div class="type-container">
+                    <span class="type-badge type-{{ team.pokemon6.type1|lower }}">{{ team.pokemon6.type1 }}</span>
+                    {% if team.pokemon6.type2 %}
+                    <span class="type-badge type-{{ team.pokemon6.type2|lower }}">{{ team.pokemon6.type2 }}</span>
+                    {% endif %}
+                </div>
+                </div>{% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

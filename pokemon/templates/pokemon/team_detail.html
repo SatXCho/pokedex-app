@@ -1,0 +1,76 @@
+{% extends 'pokemon/base.html' %}
+{% load pokemon_filters %}
+{% load static %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'pokemon/team_styles.css' %}">
+{% endblock %}
+{% block content %}
+<div class="team-form-container">
+    <h1>{{ team.name }}</h1>
+    <div class="team-pokemon-grid">
+        {% if team.pokemon1 %}
+        <div class="team-pokemon">
+            <img src="{{ team.pokemon1.image_url }}" alt="{{ team.pokemon1.name }}">
+            <div class="type-container">
+                {% for type in team.pokemon1.types.all %}
+                <span class="type-badge type-{{ type.name|lower }}">{{ type.name }}</span>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+        {% if team.pokemon2 %}
+        <div class="team-pokemon">
+            <img src="{{ team.pokemon2.image_url }}" alt="{{ team.pokemon2.name }}">
+            <div class="type-container">
+                {% for type in team.pokemon2.types.all %}
+                <span class="type-badge type-{{ type.name|lower }}">{{ type.name }}</span>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+        {% if team.pokemon3 %}
+        <div class="team-pokemon">
+            <img src="{{ team.pokemon3.image_url }}" alt="{{ team.pokemon3.name }}">
+            <div class="type-container">
+                {% for type in team.pokemon3.types.all %}
+                <span class="type-badge type-{{ type.name|lower }}">{{ type.name }}</span>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+        {% if team.pokemon4 %}
+        <div class="team-pokemon">
+            <img src="{{ team.pokemon4.image_url }}" alt="{{ team.pokemon4.name }}">
+            <div class="type-container">
+                {% for type in team.pokemon4.types.all %}
+                <span class="type-badge type-{{ type.name|lower }}">{{ type.name }}</span>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+        {% if team.pokemon5 %}
+        <div class="team-pokemon">
+            <img src="{{ team.pokemon5.image_url }}" alt="{{ team.pokemon5.name }}">
+            <div class="type-container">
+                {% for type in team.pokemon5.types.all %}
+                <span class="type-badge type-{{ type.name|lower }}">{{ type.name }}</span>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+        {% if team.pokemon6 %}
+        <div class="team-pokemon">
+            <img src="{{ team.pokemon6.image_url }}" alt="{{ team.pokemon6.name }}">
+            <div class="type-container">
+                {% for type in team.pokemon6.types.all %}
+                <span class="type-badge type-{{ type.name|lower }}">{{ type.name }}</span>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+    
+</div>
+<a href="{% url 'team_list' %}" class="back-btn">Back to Teams</a>
+{% endblock %}

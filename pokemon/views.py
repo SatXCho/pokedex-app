@@ -1,45 +1,72 @@
 # pokemon/views.py
 from django.shortcuts import render, get_object_or_404
 from .models import Pokemon
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseForbidden
 from django.db.models import Exists, OuterRef, Count, F, Q
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 import json
 from .models import Pokemon
 
-# def explore(request):
-    # query = request.GET.get('search', '').strip()
-    
-    # if query:
-    #     books_list = Book.objects.filter(
-    #         Q(title__icontains=query) | Q(author__icontains=query)
-    #     )
-    # else:
-    #     books_list = Book.objects.all()
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import Team
+from .forms import TeamForm
 
-    # books_list = books_list.annotate(
-    #     is_saved=Exists(
-    #         Wishlist.objects.filter(user=request.user, book_id=OuterRef('pk'))
-    #     )
-    # )
+@login_required
+def team_list(request):
+    teams = Team.objects.filter(user=request.user)  
+    return render(request, 'pokemon/team_list.html', {'teams': teams})
+
+@login_required
+def team_detail(request, team_id):
+    team = get_object_or_404(Team, id=team_id, user=request.user) 
+    return render(request, 'pokemon/team_detail.html', {'team': team})
+
+@login_required
+def team_create(request):
+    if request.method == 'POST':
+        form = TeamForm(request.POST)
+        if form.is_valid():
+            team = form.save(commit=False)
+            team.user = request.user 
+            team.save()
+            return redirect('team_list')
+    else:
+        form = TeamForm()
+    return render(request, 'pokemon/team_form.html', {'form': form})
+
+@login_required
+def edit_team_view(request, pk):
+    team = get_object_or_404(Team, pk=pk)
+
+    # Ensure only the owner can edit the team
+    if team.user != request.user:
+        return HttpResponseForbidden("You are not allowed to edit this team.")
+
+    if request.method == 'POST':
+        form = TeamForm(request.POST, instance=team)
+        if form.is_valid():
+            form.save()
+            return redirect('team_detail', pk=team.pk)  # Redirect to the team detail page
+    else:
+        form = TeamForm(instance=team)
+
+    return render(request, 'pokemon/edit_team.html', {'form': form, 'team': team})
+
+@login_required
+def delete_team_view(request, pk):
+    team = get_object_or_404(Team, pk=pk)
+
     
-    # paginator = Paginator(books_list, 20)
-    
-    # page = request.GET.get('page', 1)
-    
-    # try:
-    #     books = paginator.page(page)
-    # except PageNotAnInteger:
-    #     books = paginator.page(1)
-    # except EmptyPage:
-    #     books = paginator.page(paginator.num_pages)
-    
-    # return render(request, "books/explore.html", {
-    #     'books': books,  
-    #     'search_query': query,
-    #     'is_paginated': books.has_other_pages(),
-    # })
+    if team.user != request.user:
+        return HttpResponseForbidden("You are not allowed to delete this team.")
+
+    if request.method == 'POST':
+        team.delete()
+        return redirect('team_list')  
+
+    return render(request, 'pokemon/team_confirm_delete.html', {'team': team})
 
 @login_required
 def pokemon_list(request):

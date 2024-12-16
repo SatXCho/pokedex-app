@@ -1,0 +1,41 @@
+{% extends 'pokemon/base.html' %}
+{% load pokemon_filters %}
+{% load static %}
+
+{% block extra_head %}
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="{% static 'pokemon/team_styles.css' %}">
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+{% endblock %}
+
+{% block content %}
+<div class="team-form-container">
+    <h1>Create New Team</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        {% for field in form %}
+        <div class="form-group">
+            {{ field.label_tag }}
+            {{ field }}
+            {{ field.errors }}
+        </div>
+        {% endfor %}
+        <div class="form-actions">
+            <a href="{% url 'team_list' %}" class="back-btn">Back to Teams</a>
+            <button type="submit" class="submit-btn">Save Team</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    $(document).ready(function() {
+        $('select').select2({
+            width: '100%',
+            placeholder: 'Search for a Pokemon...',
+            allowClear: true
+        });
+    });
+</script>
+{% endblock %}

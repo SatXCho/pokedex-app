@@ -1,0 +1,16 @@
+{% extends 'pokemon/base.html' %}
+{% load pokemon_filters %}
+{% load static %}
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'pokemon/team_styles.css' %}">
+{% endblock %}
+{% block content %}
+    <div class="delete-confirmation">
+        <h1>Are you sure you want to delete the team "{{ team.name }}"?</h1>
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" class="delete-btn">Yes, delete</button>
+            <a href="{% url 'team_list' %}" class="cancel-btn">Cancel</a>
+        </form>
+    </div>
+{% endblock %}

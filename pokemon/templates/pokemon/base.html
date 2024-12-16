@@ -6,6 +6,8 @@
     <title>Pokedex</title>
     <link rel="stylesheet" href="{% static 'pokemon/styles.css' %}">
     <link rel="stylesheet" href="{% static 'pokemon/base.css' %}">
+    <link rel="stylesheet" href="{% static 'pokemon/team_styles.css' %}">
+    
     <style>
         @font-face {
             font-family: 'CustomFont';
@@ -26,7 +28,49 @@
         h4 { font-size: 1.3rem; }
         .type-badge { font-size: 1rem; }
         .number-badge { font-size: 1rem; }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .name-card {
+            padding: 8px 16px;
+            background: #000000;
+            border-radius: 24px;
+            cursor: pointer;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            font-size: 12px;
+            background-color: #000000;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            border-radius: 4px;
+            border: 1px solid wheat;
+        }
+
+        .dropdown-content a {
+            color: wheat;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #000000;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
     </style>
+    {% block extra_head %}
+    {% endblock %}
 </head>
 
 <body>
@@ -37,7 +81,13 @@
                 value="{{ search_query }}">
             <button class="search-button" type="submit">Search</button>
         </form>
-        <a href="/logout/">Logout</a>
+        <div class="dropdown">
+            <div class="name-card">{{ request.user.username }}</div>
+            <div class="dropdown-content">
+                <a href="{% url 'team_list' %}">My Teams</a>
+                <a href="/logout/">Logout</a>
+            </div>
+        </div>
     </header>
     <main>
         {% block content %}
