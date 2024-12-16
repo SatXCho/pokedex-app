@@ -6,14 +6,35 @@
     <title>Pokedex</title>
     <link rel="stylesheet" href="{% static 'pokemon/styles.css' %}">
     <link rel="stylesheet" href="{% static 'pokemon/base.css' %}">
+    <style>
+        @font-face {
+            font-family: 'CustomFont';
+            src: url("{% static 'pokemon/fonts/font.ttf' %}") format('truetype');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        * {
+            font-family: 'CustomFont', Arial, sans-serif !important;
+            font-size: 1.1rem;
+        }
+
+        h1 { font-size: 2.2rem; }
+        h2 { font-size: 1.8rem; }
+        h3 { font-size: 1.5rem; }
+        h4 { font-size: 1.3rem; }
+        .type-badge { font-size: 1rem; }
+        .number-badge { font-size: 1rem; }
+    </style>
 </head>
 
 <body>
     <header>
-        <img src="../../../static/pokemon/images/pokemon_logo.png">
+        <a href="/"><img src="../../../static/pokemon/images/pokemon_logo.png"></a>
         <form class="search-form" role="search" action="{% url 'pokemon_list' %}" method="GET">
-            <input class="" type="search" name="search" placeholder="Search by pokemon or type"
-                aria-label="Search" value="{{ search_query }}">
+            <input class="" type="search" name="search" placeholder="Search by pokemon or type" aria-label="Search"
+                value="{{ search_query }}">
             <button class="search-button" type="submit">Search</button>
         </form>
         <a href="/logout/">Logout</a>

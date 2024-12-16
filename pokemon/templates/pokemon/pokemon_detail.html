@@ -54,7 +54,8 @@
                     </div>
                     <div class="data-item">
                         <span class="label">Gender Ratio:</span>
-                        <span class="value">{{ pokemon.gender_ratio }}</span>
+                        <span class="value">{{ pokemon.gender_ratio_male }}</span>
+                        <span class="value">{{ pokemon.gender_ratio_female }}</span>
                     </div>
                     <div class="data-item">
                         <span class="label">Egg Groups:</span>
@@ -68,9 +69,12 @@
     <div class="detail-right-column reduced-space">
         <div class="pokemon-abilities">
             <h3>Abilities</h3>
-            <p>{{ pokemon.primary_ability }}</p>
-            <p>{%if pokemon.secondary_ability%}{{ pokemon.secondary_ability }}{% endif %}</p>
-            <p>{%if pokemon.secondary_ability%}{{ pokemon.hidden_ability }}{% endif %}</p>
+            <p class="ability">> {{ pokemon.primary_ability }}</p>
+            <p>{{ pokemon.primary_ability_description }}</p>
+            <p class="ability">{%if pokemon.secondary_ability%}> {{ pokemon.secondary_ability }}{% endif %}</p>
+            <p>{%if pokemon.secondary_ability%}{{ pokemon.secondary_ability_description }}{% endif %}</p>
+            <p class="ability">{%if pokemon.hidden_ability%}> {{ pokemon.hidden_ability }}{% endif %}</p>
+            <p>{%if pokemon.hidden_ability%}{{ pokemon.hidden_ability_description }}{% endif %}</p>
         </div>
 
         <div class="pokemon-description">
