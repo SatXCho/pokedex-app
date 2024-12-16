@@ -21,7 +21,7 @@
                     {% with evolution_line=pokemon|get_evolution_line %}
                     {% for evo in evolution_line %}
                         <div class="evolution-stage {% if evo.number == pokemon.number %}current{% endif %}">
-                            <a href="{% url 'pokemon_detail' evo.number %}" class="evo-sprite-link">
+                            <a href="{% url 'pokemon_detail' evo.pk %}" class="evo-sprite-link">
                                 <img src="{{ evo.image_url }}" alt="{{ evo.name }}" class="evo-sprite">
                                 <span class="evo-name">{{ evo.name }}</span>
                             </a>
@@ -68,12 +68,14 @@
     <div class="detail-right-column reduced-space">
         <div class="pokemon-abilities">
             <h3>Abilities</h3>
-            <p>{{ pokemon.abilities }}</p>
+            <p>{{ pokemon.primary_ability }}</p>
+            <p>{%if pokemon.secondary_ability%}{{ pokemon.secondary_ability }}{% endif %}</p>
+            <p>{%if pokemon.secondary_ability%}{{ pokemon.hidden_ability }}{% endif %}</p>
         </div>
 
         <div class="pokemon-description">
             <h3>Description</h3>
-            <p>{{ pokemon.description }}</p>
+            <p>{{ pokemon.dex_entry }}</p>
         </div>
 
         <div class="pokemon-stats">

@@ -1,5 +1,5 @@
 """
-ASGI config for pokedex2 project.
+ASGI config for pokedex3 project.
 
 It exposes the ASGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.asgi import get_asgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'pokedex2.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'pokedex3.settings')
 
 application = get_asgi_application()
